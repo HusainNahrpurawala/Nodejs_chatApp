@@ -21,7 +21,7 @@ const Server = http.createServer(app);
 const io = socketio(Server);
 
 //Heroku Path env Variable
-const port =process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 const publicDirPath = path.join(__dirname, "../public");
 
 app.use(express.static(publicDirPath));
@@ -61,6 +61,7 @@ io.on("connection", socket => {
 
     socket.on("sendMessage", (message, callback) => {
         const user = getUser(socket.id);
+
         const filter = new Filter();
 
         if (filter.isProfane(message)) {
@@ -72,19 +73,20 @@ io.on("connection", socket => {
         callback();
     });
 
-    socket.on("sendLocation", (coords, callback) => {
-        const user = getUser(socket.id);
+    /*socket.on("sendLocation", (coords, callback) => {
+              const user = getUser(socket.id);
 
-        //SEND LOCATION
-        io.to(user.room).emit(
-            "locationMessage",
-            GenerateLocationMessage(
-                user.username,
-                `https://google.com/maps?q=${coords.latitude},${coords.longitude}`
-            )
-        );
-        callback();
-    });
+              //SEND LOCATION
+              io.to(user.room).emit(
+                  "locationMessage",
+                  GenerateLocationMessage(
+                      user.username,
+                      `https://google.com/maps?q=${coords.latitude},${coords.longitude}`
+                  )
+              );
+              callback();
+          });
+          */
 
     socket.on("disconnect", () => {
         const user = removeUser(socket.id);

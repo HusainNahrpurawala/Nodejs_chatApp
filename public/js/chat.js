@@ -4,14 +4,15 @@ const socket = io();
 const $messageForm = document.querySelector("#message-form");
 const $messageFormInput = document.querySelector("#message-input");
 const $messageFormButton = document.querySelector("#message-button");
-const $sendLocationButton = document.querySelector("#send-location");
+//const $sendLocationButton = document.querySelector("#send-location");
 const $messages = document.querySelector("#messages");
 
 // Templates
 const messageTemp = document.querySelector("#message-template").innerHTML;
-const locationTemp = document.querySelector("#location-message-template")
-    .innerHTML;
+//const locationTemp = document.querySelector("#location-message-template")
+//.innerHTML;
 const sidebarTemp = document.querySelector("#sidebar-template").innerHTML;
+
 //From queryString
 const { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
@@ -29,7 +30,7 @@ socket.on("message", message => {
     $messages.insertAdjacentHTML("beforeend", html);
 });
 
-socket.on("locationMessage", message => {
+/*socket.on("locationMessage", message => {
     console.log(message);
 
     const html = Mustache.render(locationTemp, {
@@ -39,7 +40,7 @@ socket.on("locationMessage", message => {
     });
 
     $messages.insertAdjacentHTML("beforeend", html);
-});
+});*/
 
 socket.on("roomData", ({ room, users }) => {
     const html = Mustache.render(sidebarTemp, {
@@ -68,7 +69,7 @@ $messageForm.addEventListener("submit", event => {
     });
 });
 
-$sendLocationButton.addEventListener("click", () => {
+/*$sendLocationButton.addEventListener("click", () => {
     if (!navigator.geolocation) {
         return alert("Geolocation is not supported by your Browser");
     }
@@ -87,7 +88,7 @@ $sendLocationButton.addEventListener("click", () => {
             }
         );
     });
-});
+});*/
 
 socket.emit("join", { username, room }, error => {
     if (error) {
