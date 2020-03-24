@@ -21,7 +21,7 @@ const Server = http.createServer(app);
 const io = socketio(Server);
 
 //Heroku Path env Variable
-const port = process.env.PATH || 3000;
+const port = 3000;
 const publicDirPath = path.join(__dirname, "../public");
 
 app.use(express.static(publicDirPath));
